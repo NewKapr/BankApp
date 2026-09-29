@@ -2,11 +2,65 @@ namespace BankApp.Models;
 
 public class BankAccount
 {
-    public int AccountNumber;
-    public string Owner = string.Empty;
-    public decimal Balance;
+    private readonly int _accountNumber;
+    private string _owner = string.Empty;
+    private decimal _balance;
 
-    public void DisplayInfo()
+    public int AccountNumber => _accountNumber;
+    public decimal Balance => _balance;
+
+    public string Owner
+    {
+        get => _owner;
+        set
+        {
+            if (string.IsNullOrWhiteSpace(value))
+                throw new ArgumentException("Имя владельца не может быть пустым", nameof(value));
+            _owner = value.Trim();
+        }
+    }
+
+    public BankAccount(int accountNumber, string owner, decimal initialBalance = 0m)
+    {
+        if (accountNumber <= 0)
+            throw new ArgumentOutOfRangeException(nameof(accountNumber), "Номер счёта должен быть положительным");
+        if (initialBalance < 0m)
+            throw new ArgumentOutOfRangeException(nameof(initialBalance), "Начальный баланс не может быть отрицательным");
+        ValidatePrecision(initialBalance, nameof(initialBalance));
+
+        _accountNumber = accountNumber;
+        Owner = owner;
+        _balance = initialBalance;
+    }
+
+    public void Deposit(decimal amount)
+    {
+        ValidateAmount(amount);
+        _balance = checked(_balance + amount);
+    }
+
+    public void Withdraw(decimal amount)
+    {
+        ValidateAmount(amount);
+        if (amount > _balance)
+            throw new InvalidOperationException("Недостаточно средств на счёте");
+        _balance -= amount;
+    }
+
+    private static void ValidateAmount(decimal amount)
+    {
+        if (amount <= 0m)
+            throw new ArgumentOutOfRangeException(nameof(amount), "Сумма операции должна быть положительной");
+        ValidatePrecision(amount, nameof(amount));
+    }
+
+    private static void ValidatePrecision(decimal amount, string parameterName)
+    {
+        if (decimal.Round(amount, 2) != amount)
+            throw new ArgumentException("Сумма должна содержать не более двух знаков после запятой", parameterName);
+    }
+
+    public virtual void DisplayInfo()
     {
         Console.WriteLine($"Счёт №{AccountNumber}. Владелец: {Owner}. Баланс: {Balance:F2} руб.");
     }

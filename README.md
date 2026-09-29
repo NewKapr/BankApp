@@ -18,5 +18,6 @@ dotnet run --project BankApp/BankApp.csproj
 | Этап | Содержание | Версия |
 |---|---|---|
 | 1 | Базовый класс и поля | `stage-1` |
+| 2 | Инкапсуляция и валидация | `stage-2` |
 
 Для открытия отдельного этапа: `git switch --detach stage-2`. Возврат к итоговой версии: `git switch main`.

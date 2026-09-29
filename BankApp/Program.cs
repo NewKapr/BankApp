@@ -5,10 +5,17 @@ using BankApp.Models;
 Console.OutputEncoding = Encoding.UTF8;
 CultureInfo.CurrentCulture = CultureInfo.GetCultureInfo("ru-RU");
 
-var account = new BankAccount
+var account = new BankAccount(1001, "Иван Петров", 1000m);
+account.Deposit(250m);
+account.Withdraw(100m);
+account.DisplayInfo();
+
+try
 {
-    AccountNumber = 1001,
-    Owner = "Иван Петров",
-    Balance = 1000m
-};
+    account.Withdraw(2000m);
+}
+catch (InvalidOperationException ex)
+{
+    Console.WriteLine($"Ошибка: {ex.Message}");
+}
 account.DisplayInfo();
