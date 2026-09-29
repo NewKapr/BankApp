@@ -1,6 +1,6 @@
 namespace BankApp.Models;
 
-public class BankAccount
+public abstract class BankAccount
 {
     private readonly int _accountNumber;
     private string _owner = string.Empty;
@@ -20,7 +20,7 @@ public class BankAccount
         }
     }
 
-    public BankAccount(int accountNumber, string owner, decimal initialBalance = 0m)
+    protected BankAccount(int accountNumber, string owner, decimal initialBalance = 0m)
     {
         if (accountNumber <= 0)
             throw new ArgumentOutOfRangeException(nameof(accountNumber), "Номер счёта должен быть положительным");
@@ -60,8 +60,5 @@ public class BankAccount
             throw new ArgumentException("Сумма должна содержать не более двух знаков после запятой", parameterName);
     }
 
-    public virtual void DisplayInfo()
-    {
-        Console.WriteLine($"Счёт №{AccountNumber}. Владелец: {Owner}. Баланс: {Balance:F2} руб.");
-    }
+    public abstract void DisplayInfo();
 }

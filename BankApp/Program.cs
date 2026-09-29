@@ -5,17 +5,12 @@ using BankApp.Models;
 Console.OutputEncoding = Encoding.UTF8;
 CultureInfo.CurrentCulture = CultureInfo.GetCultureInfo("ru-RU");
 
-var account = new BankAccount(1001, "Иван Петров", 1000m);
-account.Deposit(250m);
-account.Withdraw(100m);
-account.DisplayInfo();
+BankAccount[] accounts =
+[
+    new RegularAccount(1001, "Иван Петров", 1000m),
+    new SavingsAccount(1002, "Анна Смирнова", 2000m)
+];
+foreach (var account in accounts)
+    account.DisplayInfo();
 
-try
-{
-    account.Withdraw(2000m);
-}
-catch (InvalidOperationException ex)
-{
-    Console.WriteLine($"Ошибка: {ex.Message}");
-}
-account.DisplayInfo();
+Console.WriteLine($"Реальный баланс сберегательного счёта: {accounts[1].Balance:F2} руб.");
