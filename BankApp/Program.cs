@@ -10,14 +10,10 @@ var bank = new Bank();
 bank.AddAccount(new RegularAccount(1001, "Иван Петров", 1000m));
 bank.AddAccount(new SavingsAccount(1002, "Анна Смирнова", 2000m));
 
-foreach (var account in bank.GetAllAccounts())
-    account.DisplayInfo();
+Console.WriteLine("=== Поиск счёта 1001 ===");
+bank.FindAccount(1001)?.DisplayInfo();
+Console.WriteLine(bank.FindAccount(9999) is null ? "Счёт 9999 не найден." : "Счёт найден.");
 
-try
-{
-    bank.AddAccount(new RegularAccount(1001, "Павел Орлов"));
-}
-catch (InvalidOperationException ex)
-{
-    Console.WriteLine($"Ошибка: {ex.Message}");
-}
+Console.WriteLine("=== Сберегательные счета ===");
+foreach (var account in bank.GetSavingsAccounts())
+    account.DisplayInfo();

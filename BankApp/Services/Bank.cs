@@ -20,11 +20,11 @@ public class Bank
     {
         if (accountNumber <= 0)
             throw new ArgumentOutOfRangeException(nameof(accountNumber), "Номер счёта должен быть положительным");
-        foreach (var account in _accounts)
-        {
-            if (account.AccountNumber == accountNumber)
-                return account;
-        }
-        return null;
+        return _accounts.FirstOrDefault(account => account.AccountNumber == accountNumber);
+    }
+
+    public List<SavingsAccount> GetSavingsAccounts()
+    {
+        return _accounts.OfType<SavingsAccount>().ToList();
     }
 }
