@@ -28,7 +28,7 @@ public class SavingsAccount : BankAccount
     {
         decimal projectedBalance = ProjectedBalance;
         Console.WriteLine($"Сберегательный счёт №{AccountNumber}. Владелец: {Owner}.");
-        Console.WriteLine($"Баланс: {Balance:F2} руб. Ставка: {InterestRate:0.##}%.");
+        Console.WriteLine($"Баланс: {Balance:F2} руб. Ставка: {InterestRate}%.");
         Console.WriteLine($"Расчётный баланс с процентами: {projectedBalance:F2} руб.");
     }
 }

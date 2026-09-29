@@ -36,7 +36,10 @@ public abstract class BankAccount
     public void Deposit(decimal amount)
     {
         ValidateAmount(amount);
-        _balance = checked(_balance + amount);
+        decimal newBalance = checked(_balance + amount);
+        if (newBalance - _balance != amount)
+            throw new OverflowException();
+        _balance = newBalance;
     }
 
     public void Withdraw(decimal amount)
@@ -44,7 +47,10 @@ public abstract class BankAccount
         ValidateAmount(amount);
         if (amount > _balance)
             throw new InvalidOperationException("Недостаточно средств на счёте");
-        _balance -= amount;
+        decimal newBalance = _balance - amount;
+        if (_balance - newBalance != amount)
+            throw new OverflowException();
+        _balance = newBalance;
     }
 
     private static void ValidateAmount(decimal amount)
